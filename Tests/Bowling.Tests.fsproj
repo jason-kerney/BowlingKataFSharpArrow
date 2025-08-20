@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreSources>$(RestoreSources);C:\Development\nuget</RestoreSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Archer.CoreTypes.Lib" Version="0.0.13.42" />
+    <PackageReference Include="Archer.Arrow.Lib" Version="0.0.0.43" />
+    <PackageReference Include="Archer.Bow.Lib" Version="0.0.9.39" />
+    <PackageReference Include="Archer.Fletching.Lib" Version="0.0.0.35" />
+    <PackageReference Include="Archer.Logger.Lib" Version="0.0.0.6" />
+    <PackageReference Include="ArcherQuiverTestAdapter" Version="0.0.1" />
+    <PackageReference Include="MicroLang.Lib" Version="0.0.12.58" />
+  </ItemGroup>
+  <ItemGroup>
+  <Compile Include="TestTypes.fs" />
+  <Compile Include="Framework.fs" />
+  <Compile Include="FrameBuilderTests.fs" /><Compile Include="ScorePadTests.fs" /><Compile Include="GameTests.fs" />
+  <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lib\Bowling.Lib.fsproj" />
+  </ItemGroup>
+</Project>
