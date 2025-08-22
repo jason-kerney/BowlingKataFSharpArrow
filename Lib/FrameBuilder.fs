@@ -16,24 +16,24 @@ let rec bowlAll (pinSets: int list) ({ InProgress = incomplete; Finished = frame
     match pinSets with
     | [] -> state
     | pins :: rest ->
-        match incomplete with
-        | EmptyFrame when 10 < pins -> 
+        match (incomplete, pins) with
+        | (EmptyFrame, pins) when 10 < pins -> 
             state
-        | EmptyFrame when 10 = pins -> 
+        | (EmptyFrame, 10) -> 
             { InProgress = EmptyStrike; Finished = frames } |> bowlAll rest
-        | EmptyFrame -> 
+        | (EmptyFrame, pins) -> 
             { InProgress = PartialFrame pins; Finished = frames } |> bowlAll rest
-        | EmptyStrike -> 
+        | (EmptyStrike, pins) -> 
             { InProgress = PartialStrike pins; Finished = frames } |> bowlAll rest
-        | PartialStrike previousPins -> 
+        | (PartialStrike previousPins, pins) -> 
             { InProgress = EmptyFrame; Finished = Strike (previousPins, pins)::frames } |> bowlAll (previousPins::pins::rest)
-        | PartialFrame previousPins when 10 < (previousPins + pins) -> 
+        | (PartialFrame previousPins, pins) when 10 < (previousPins + pins) -> 
             state
-        | PartialFrame previousPins when 10 = (previousPins + pins) -> 
+        | (PartialFrame previousPins, pins) when 10 = (previousPins + pins) -> 
             { InProgress = PartialSpare (previousPins, pins); Finished = frames } |> bowlAll rest
-        | PartialFrame previousPins -> 
+        | (PartialFrame previousPins, pins) -> 
             { InProgress = EmptyFrame; Finished = Basic (previousPins, pins)::frames } |> bowlAll rest
-        | PartialSpare (prev, prev2) -> 
+        | (PartialSpare (prev, prev2), pins) -> 
             { InProgress = EmptyFrame; Finished = Spare (prev, prev2, pins)::frames } |> bowlAll (pins::rest)
 
 and bowl pins = bowlAll [pins]
