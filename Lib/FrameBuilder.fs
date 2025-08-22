@@ -1,6 +1,13 @@
 module Bowling.Lib.FrameBuilder
 open Bowling.Lib
 
+// Active pattern for invalid state transitions where we simply return the current state
+let (|InvalidState|_|) (incomplete, pins) =
+    match (incomplete, pins) with
+    | (EmptyFrame, pins) when 10 < pins -> Some ()
+    | (PartialFrame previousPins, pins) when 10 < (previousPins + pins) -> Some ()
+    | _ -> None
+
 let score = function
     | Basic (firstRoll, secondRoll) -> firstRoll + secondRoll
     | Spare (_, _, bonusRoll) -> 10 + bonusRoll
@@ -17,8 +24,7 @@ let rec bowlAll (pinSets: int list) ({ InProgress = incomplete; Finished = frame
     | [] -> state
     | pins :: rest ->
         match (incomplete, pins) with
-        | (EmptyFrame, pins) when 10 < pins -> 
-            state
+        | InvalidState -> state
         | (EmptyFrame, 10) -> 
             { InProgress = EmptyStrike; Finished = frames } |> bowlAll rest
         | (EmptyFrame, pins) -> 
@@ -27,8 +33,6 @@ let rec bowlAll (pinSets: int list) ({ InProgress = incomplete; Finished = frame
             { InProgress = PartialStrike pins; Finished = frames } |> bowlAll rest
         | (PartialStrike previousPins, pins) -> 
             { InProgress = EmptyFrame; Finished = Strike (previousPins, pins)::frames } |> bowlAll (previousPins::pins::rest)
-        | (PartialFrame previousPins, pins) when 10 < (previousPins + pins) -> 
-            state
         | (PartialFrame previousPins, pins) when 10 = (previousPins + pins) -> 
             { InProgress = PartialSpare (previousPins, pins); Finished = frames } |> bowlAll rest
         | (PartialFrame previousPins, pins) -> 
