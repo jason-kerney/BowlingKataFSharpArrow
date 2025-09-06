@@ -1,12 +1,12 @@
-﻿open Archer.Bow
+﻿open Archer.Runner
 open Archer
-open Archer.CoreTypes.InternalTypes
-open Archer.CoreTypes.InternalTypes.RunnerTypes
-open Archer.Logger.Summaries
+open Archer.Types.InternalTypes
+open Archer.Types.InternalTypes.RunnerTypes
+open Archer.Reporting.Summaries
 open Bowling.Tests
 open MicroLang.Lang
 
-let runner = bow.Runner ()
+let runner = runnerFactory.Runner ()
 
 runner.RunnerLifecycleEvent
 |> Event.add (fun args ->

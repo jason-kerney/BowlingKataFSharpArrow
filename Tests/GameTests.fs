@@ -2,7 +2,7 @@ module Bowling.Tests.GameTests
 open Bowling.Lib
 open Bowling.Lib.ScorePad
 
-open Archer.Arrows
+open Archer.Core
 open Archer
 
 let gameTestFeature =

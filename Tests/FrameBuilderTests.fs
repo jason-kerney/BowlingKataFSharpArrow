@@ -1,6 +1,6 @@
 module Bowling.Tests.FrameBuilderTests
 open Bowling.Lib
-open Archer.Arrows
+open Archer.Core
 open Archer
 
 type SpareTestDatum =

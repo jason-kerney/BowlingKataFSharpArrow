@@ -2,7 +2,7 @@ module Bowling.Tests.ScorePadTests
 open Bowling.Lib
 open Bowling.Lib.ScorePad
 
-open Archer.Arrows
+open Archer.Core
 open Archer
 
 let scorePadBowlDatum (pins: int, frame: IncompleteFrame) =
